@@ -27,7 +27,7 @@
 //
 
 #import "MSCollectionViewCalendarLayout.h"
-#import <CupertinoYankee/NSDate+CupertinoYankee.h>
+#import "NSDate+Day.h"
 
 NSString * const MSCollectionElementKindTimeRowHeader = @"MSCollectionElementKindTimeRow";
 NSString * const MSCollectionElementKindDayColumnHeader = @"MSCollectionElementKindDayHeader";
@@ -431,8 +431,9 @@ NSUInteger const MSCollectionMinBackgroundZ = 0.0;
         CGFloat calendarGridMinY = (columnMinY + self.dayColumnHeaderHeight + self.contentMargin.top);
         
         // Day Column Header
-        CGFloat dayColumnHeaderMinY = fminf(fmaxf(self.collectionView.contentOffset.y, columnMinY), (nextColumnMinY - self.dayColumnHeaderHeight));
+        CGFloat dayColumnHeaderMinY = fminf(fmaxf(self.collectionView.contentOffset.y + self.collectionView.contentInset.top, columnMinY), (nextColumnMinY - self.dayColumnHeaderHeight));
         BOOL dayColumnHeaderFloating = ((dayColumnHeaderMinY > columnMinY) || self.displayHeaderBackgroundAtOrigin);
+
         NSIndexPath *dayColumnHeaderIndexPath = [NSIndexPath indexPathForRow:0 inSection:section];
         UICollectionViewLayoutAttributes *dayColumnHeaderAttributes = [self layoutAttributesForSupplementaryViewAtIndexPath:dayColumnHeaderIndexPath ofKind:MSCollectionElementKindDayColumnHeader withItemCache:self.dayColumnHeaderAttributes];
         // Frame
